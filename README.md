@@ -40,4 +40,5 @@ test images to it.
 
 - [ ] Tuning low/high of Canny Edge.
 - [ ] Write Evaluation function for Edge Detection.
+- [ ] Define a region of interest (hardcode? or adaptive?)
 - [x] Use CuPy to replace numpy to improve efficiency.
