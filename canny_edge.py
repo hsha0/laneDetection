@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import cupy as cp
 import numpy as np
 import matplotlib.pyplot as plt
 import os
 import sys
-from scipy import signal
+from cupyx.scipy import signal
 from PIL import Image
 import argparse
 
@@ -62,17 +63,17 @@ def visDerivatives(I_gray, Mag, Magx, Magy):
 
     # plot gradient orientation
     Mag_vec = Mag.transpose().reshape(1, Mag.shape[0] * Mag.shape[1]) 
-    hist, bin_edge = np.histogram(Mag_vec.transpose(), 100)
+    hist, bin_edge = cp.histogram(Mag_vec.transpose(), 100)
 
-    ind_array = np.array(np.where( (np.cumsum(hist).astype(float) / hist.sum()) < 0.95))
+    ind_array = cp.array(cp.where( (cp.cumsum(hist).astype(float) / hist.sum()) < 0.95))
     thr = bin_edge[ind_array[0, -1]]
 
-    ind_remove = np.where(np.abs(Mag) < thr)
+    ind_remove = cp.where(cp.abs(Mag) < thr)
     Magx[ind_remove] = 0
     Magy[ind_remove] = 0
 
-    X, Y = np.meshgrid(np.arange(0, Mag.shape[1], 1), np.arange(0, Mag.shape[0], 1))
-    Ori = np.arctan2(Magy, Magx)
+    X, Y = cp.meshgrid(cp.arange(0, Mag.shape[1], 1), cp.arange(0, Mag.shape[0], 1))
+    Ori = cp.arctan2(Magy, Magx)
     ori = Ax3.imshow(Ori, cmap='hsv')
     Ax3.axis('off')
     Ax3.set_title('Gradient Orientation')
@@ -125,9 +126,9 @@ def findDerivatives(I_gray):
         - Output Ori: H x W matrix represents the orientation of derivatives
     '''
     # TODO: complete function
-    dx = np.array([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
-    dy = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
-    G = np.array([[2, 4, 5, 4, 2],
+    dx = cp.array([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
+    dy = cp.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
+    G = cp.array([[2, 4, 5, 4, 2],
                   [4, 9, 12, 9, 4],
                   [5, 12, 15, 12, 5],
                   [4, 9, 12, 9, 4],
@@ -141,8 +142,8 @@ def findDerivatives(I_gray):
     Magy = signal.convolve2d(I_gray, G_dy, mode='same')
 
     # compute Mag and Ori
-    Mag = np.sqrt(Magx ** 2 + Magy ** 2)
-    Ori = np.arctan2(Magy, Magx)
+    Mag = cp.sqrt(Magx ** 2 + Magy ** 2)
+    Ori = cp.arctan2(Magy, Magx)
     return Mag, Magx, Magy, Ori
 
 def nonMaxSup(Mag, Ori):
@@ -156,33 +157,33 @@ def nonMaxSup(Mag, Ori):
     # get number of columns and rows
     nc, nr = Mag.shape[1], Mag.shape[0]
     # build meshgrid
-    x, y = np.meshgrid(np.arange(nc), np.arange(nr))
+    x, y = cp.meshgrid(cp.arange(nc), cp.arange(nr))
 
     # find x, y for neighbor in positive gradient orientation
-    positive_neighbor_x = x + np.cos(Ori)
-    positive_neighbor_y = y + np.sin(Ori)
+    positive_neighbor_x = x + cp.cos(Ori)
+    positive_neighbor_y = y + cp.sin(Ori)
 
     # find x, y for neighbor in negative gradient orientation
-    negative_neighbor_x = x - np.cos(Ori)
-    negative_neighbor_y = y - np.sin(Ori)
+    negative_neighbor_x = x - cp.cos(Ori)
+    negative_neighbor_y = y - cp.sin(Ori)
 
     # get Mag of neighbors in positive gradient orientation
     # and replace edge cases with 0
     positive_neighbors = interp2(Mag, positive_neighbor_x, positive_neighbor_y)
-    edge_mask = np.logical_and(np.where((positive_neighbor_x > nc-1) | (positive_neighbor_x < 0), 0, 1), \
-                               np.where((positive_neighbor_y > nr-1)|(positive_neighbor_y
+    edge_mask = cp.logical_and(cp.where((positive_neighbor_x > nc-1) | (positive_neighbor_x < 0), 0, 1), \
+                               cp.where((positive_neighbor_y > nr-1)|(positive_neighbor_y
                                                                                                                                                  < 0), 0, 1))
     positive_neighbors *= edge_mask
 
     # get Mag of neighbors in negative gradient orientation
     # and replace edge cases with 0
     negative_neighbors = interp2(Mag, negative_neighbor_x, negative_neighbor_y)
-    edge_mask = np.logical_and(np.where((negative_neighbor_x < 0) | (negative_neighbor_x > nc-1), 0, 1), \
-                               np.where((negative_neighbor_y < 0) | (negative_neighbor_y > nr-1), 0, 1))
+    edge_mask = cp.logical_and(cp.where((negative_neighbor_x < 0) | (negative_neighbor_x > nc-1), 0, 1), \
+                               cp.where((negative_neighbor_y < 0) | (negative_neighbor_y > nr-1), 0, 1))
     negative_neighbors *= edge_mask
     
     # compare current Mag with its positive and negative neighbors
-    NMS = np.logical_and(Mag > positive_neighbors, Mag > negative_neighbors)
+    NMS = cp.logical_and(Mag > positive_neighbors, Mag > negative_neighbors)
     return NMS
 
 def edgeLink(M, Mag, Ori, low, high):
@@ -198,50 +199,50 @@ def edgeLink(M, Mag, Ori, low, high):
     # get number of columns and rows
     # build meshgrid
     nc, nr = Mag.shape[1], Mag.shape[0]
-    x, y = np.meshgrid(np.arange(nc), np.arange(nr))
+    x, y = cp.meshgrid(cp.arange(nc), cp.arange(nr))
 
     # suppress pixels whose magnitude is lower than low threshold
-    weak_mask = np.where(Mag > low, 1, 0)
+    weak_mask = cp.where(Mag > low, 1, 0)
     Mag = Mag * weak_mask * M
     # initial EdgeMap with strong edges
-    strong_mask = np.where(Mag > high, 1, 0)
+    strong_mask = cp.where(Mag > high, 1, 0)
     edge_map = M * strong_mask
     # compute the edge direction from Ori
-    edge_ori = Ori + np.pi/2
+    edge_ori = Ori + cp.pi/2
     # find neighbors in the edge direction
-    positive_neighbor_x = x + np.cos(edge_ori)
-    positive_neighbor_y = y + np.sin(edge_ori)
+    positive_neighbor_x = x + cp.cos(edge_ori)
+    positive_neighbor_y = y + cp.sin(edge_ori)
 
-    negative_neighbor_x = x - np.cos(edge_ori)
-    negative_neighbor_y = y - np.sin(edge_ori)
-    prev = np.zeros([nr, nc])
+    negative_neighbor_x = x - cp.cos(edge_ori)
+    negative_neighbor_y = y - cp.sin(edge_ori)
+    prev = cp.zeros([nr, nc])
     # try to link weak edges to strong edges until there is no change
-    while (not np.allclose(prev, edge_map)):
+    while (not cp.allclose(prev, edge_map)):
       # get Mag of neighbor in positive edge orientation
       # and deal with out of boundary cases
       positive_neighbors = interp2(Mag, positive_neighbor_x, positive_neighbor_y)
-      edge_mask = np.logical_and(np.where((positive_neighbor_x > nc-1) | (positive_neighbor_x < 0), 0, 1), \
-                               np.where((positive_neighbor_y > nr-1)|(positive_neighbor_y
+      edge_mask = cp.logical_and(cp.where((positive_neighbor_x > nc-1) | (positive_neighbor_x < 0), 0, 1), \
+                               cp.where((positive_neighbor_y > nr-1)|(positive_neighbor_y
                                                                                                                                                  < 0), 0, 1))
       positive_neighbors *= edge_mask
       # get Mag of neighbor in negative edge orientation
       # and deal with out of boundary cases
       negative_neighbors = interp2(Mag, negative_neighbor_x, negative_neighbor_y)
-      edge_mask = np.logical_and(np.where((negative_neighbor_x < 0) | (negative_neighbor_x > nc-1), 0, 1), \
-                               np.where((negative_neighbor_y < 0) | (negative_neighbor_y > nr-1), 0, 1))
+      edge_mask = cp.logical_and(cp.where((negative_neighbor_x < 0) | (negative_neighbor_x > nc-1), 0, 1), \
+                               cp.where((negative_neighbor_y < 0) | (negative_neighbor_y > nr-1), 0, 1))
       negative_neighbors *= edge_mask
 
       # find new edge points and suppress invalid ones (not in M or not in weak edges)
-      new_edge_points = np.logical_or(np.where(positive_neighbors > high, 1, 0), \
-                                      np.where(negative_neighbors > high, 1, 0)) * weak_mask * M
+      new_edge_points = cp.logical_or(cp.where(positive_neighbors > high, 1, 0), \
+                                      cp.where(negative_neighbors > high, 1, 0)) * weak_mask * M
       # update Mag values for new edge points
       Mag += new_edge_points * 20
       # update prev edge map
       prev = edge_map
       # update cur edge map
-      edge_map = np.logical_or(edge_map, new_edge_points)
+      edge_map = cp.logical_or(edge_map, new_edge_points)
     
-    return np.asarray(edge_map, dtype=bool)
+    return cp.asarray(edge_map, dtype=bool)
 
 def cannyEdge(I, low, high):
     # convert RGB image to gray color space
@@ -267,10 +268,10 @@ def cannyEdge(I, low, high):
 image_folder = "Test_Images"
 save_folder = "Results" # need to create this folder in the drive
 filename= sys.argv[1] # TODO: change image name
-I = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
+I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
 low, high = 20, 60
 E = cannyEdge(I, low, high)
-pil_image = Image.fromarray(E.astype(np.uint8) * 255).convert('L')
+pil_image = Image.fromarray(E.astype(cp.uint8) * 255).convert('L')
 # check the result in the folder
 pil_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
 

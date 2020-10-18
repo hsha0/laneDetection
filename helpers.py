@@ -1,4 +1,6 @@
 import numpy as np
+import cupy as cp
+
 def interp2(v, xq, yq):
 	dim_input = 1
 	if len(xq.shape) == 2 or len(yq.shape) == 2:
@@ -13,10 +15,10 @@ def interp2(v, xq, yq):
 	if xq.shape != yq.shape:
 		raise 'query coordinates Xq Yq should have same shape'
 
-	x_floor = np.floor(xq).astype(np.int32)
-	y_floor = np.floor(yq).astype(np.int32)
-	x_ceil = np.ceil(xq).astype(np.int32)
-	y_ceil = np.ceil(yq).astype(np.int32)
+	x_floor = cp.floor(xq).astype(cp.int32)
+	y_floor = cp.floor(yq).astype(cp.int32)
+	x_ceil = cp.ceil(xq).astype(cp.int32)
+	y_ceil = cp.ceil(yq).astype(cp.int32)
 
 	x_floor[x_floor < 0] = 0
 	y_floor[y_floor < 0] = 0
