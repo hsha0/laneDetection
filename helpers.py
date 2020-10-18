@@ -1,4 +1,4 @@
-import numpy as np
+import cupy as np
 def interp2(v, xq, yq):
 	dim_input = 1
 	if len(xq.shape) == 2 or len(yq.shape) == 2:
