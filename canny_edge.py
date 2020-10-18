@@ -136,6 +136,7 @@ def findDerivatives(I_gray):
     
     # compute G convolve dx and dy respectively
     G_dx = signal.convolve2d(G, dx, mode='same')
+    print(G_dx)
     G_dy = signal.convolve2d(G, dy, mode='same')
     # compute Magx and Magy
     Magx = signal.convolve2d(I_gray, G_dx, mode='same')
@@ -249,7 +250,6 @@ def cannyEdge(I, low, high):
     im_gray = rgb2gray(I)
 
     Mag, Magx, Magy, Ori = findDerivatives(im_gray)
-    print(Mag)
     M = nonMaxSup(Mag, Ori)
     E = edgeLink(M, Mag, Ori, low, high)
 
