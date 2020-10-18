@@ -42,4 +42,4 @@ python3 canny_edge.py IMAGE_NAME
 
 - [ ] Tuning low/high of Canny Edge.
 - [ ] Write Evaluation function for Edge Detection.
-
+- [ ] Use CuPy to replace numpy to improve efficiency.
