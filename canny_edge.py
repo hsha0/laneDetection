@@ -126,8 +126,8 @@ def findDerivatives(I_gray):
         - Output Ori: H x W matrix represents the orientation of derivatives
     '''
     # TODO: complete function
-    dx = cp.array([[1.0, 1, -1], [2, 0, -2], [1, 0, -1]])
-    dy = cp.array([[1, 2, 1], [0.0, 0, 0], [-1, -2, -1]])
+    dx = cp.array([[1.0, 1, -1], [2, 0, -2], [1, 0, -1]], dtype=np.float)
+    dy = cp.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]], dtype=np.float)
     G = cp.array([[2, 4, 5, 4, 2],
                   [4, 9, 12, 9, 4],
                   [5, 12, 15, 12, 5],
@@ -270,7 +270,7 @@ image_folder = "Test_Images"
 save_folder = "Results" # need to create this folder in the drive
 filename= sys.argv[1] # TODO: change image name
 I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
-low, high = 4, 20
+low, high = 40, 100
 E = cannyEdge(I, low, high)
 pil_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
 # check the result in the folder
