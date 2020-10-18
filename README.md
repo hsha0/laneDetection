@@ -1,6 +1,14 @@
 # Lane Detection - CIS 581 Final Project
 Lejun Jiang, Han Shao, Ying Yang
 
+## Dataset
+For this project, we use TuSimple Benchmark Dataset. 
+
+Link to the dataset: https://github.com/TuSimple/tusimple-benchmark/issues/3
+
+The test images are from test_set.zip, and the ground truth of those test images is stored in
+test_label.json.
+
 ## Edge Detection
 You can use either your own PC/laptop or Colab.
 
