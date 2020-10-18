@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import cupy as np
-import numpy
+import numpy as np
 import matplotlib.pyplot as plt
 import os
 import sys
-from cupyx.scipy import signal
+from scipy import signal
 from PIL import Image
 import argparse
 
@@ -271,7 +270,6 @@ filename= sys.argv[1] # TODO: change image name
 I = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
 low, high = 20, 60
 E = cannyEdge(I, low, high)
-print(E)
 #pil_image = Image.fromarray(E.astype(np.uint8) * 255).convert('L')
 pil_image = Image.fromarray(numpy.asarray(np.asnumpy(E), dtype=numpy.uint8) * 255).convert('L')
 # check the result in the folder
