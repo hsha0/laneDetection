@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
+import cupy as np
 import matplotlib.pyplot as plt
 import os
 import sys
-from scipy import signal
+from cupyx.scipy import signal
 from PIL import Image
 import argparse
 
