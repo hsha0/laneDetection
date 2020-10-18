@@ -134,9 +134,9 @@ def findDerivatives(I_gray):
                   [4, 9, 12, 9, 4],
                   [2, 4, 5, 4, 2]]) / 159.0
 
-    print(G)
     # compute G convolve dx and dy respectively
     G_dx = signal.convolve2d(G, dx, mode='same')
+    print(G_dx)
     G_dy = signal.convolve2d(G, dy, mode='same')
     # compute Magx and Magy
     Magx = signal.convolve2d(I_gray, G_dx, mode='same')
