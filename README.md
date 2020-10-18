@@ -30,3 +30,8 @@ mkdir Results
 python3 canny_edge.py IMAGE_NAME
 ```
 
+## To Do
+
+- [ ] Tuning low/high of Canny Edge.
+- [ ] Write Evaluation function for Edge Detection.
+
