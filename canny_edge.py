@@ -249,6 +249,7 @@ def cannyEdge(I, low, high):
     im_gray = rgb2gray(I)
 
     Mag, Magx, Magy, Ori = findDerivatives(im_gray)
+    print(Mag)
     M = nonMaxSup(Mag, Ori)
     E = edgeLink(M, Mag, Ori, low, high)
 
