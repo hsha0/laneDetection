@@ -270,7 +270,7 @@ image_folder = "Test_Images"
 save_folder = "Results" # need to create this folder in the drive
 filename= sys.argv[1] # TODO: change image name
 I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
-low, high = 40, 100
+low, high = 80, 200
 E = cannyEdge(I, low, high)
 pil_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
 # check the result in the folder
