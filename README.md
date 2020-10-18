@@ -10,13 +10,17 @@ The test images are from test_set.zip, and the ground truth of those test images
 test_label.json.
 
 ## Edge Detection
-You can use either your own PC/laptop or Colab.
+You can use Colab (with GPU) to run this program.
 
-Before running canny_edge.py, you need to create a **Results** folder 
-under laneDetection folder where the result images will be stored.
+Please follow these steps before running the canny_edge.py.
+1. install cupy.
+2. git clone repository.
+3. cd repo folder.
+4. make new dictionary **Results**.
 
-To run this program on Colab, you should use
+Then, you can run canny_edge.py through
 ```commandline
+!pip3 install cupy-cuda101 
 !git clone https://github.com/hsha0/laneDetection.git
 %cd laneDetection/
 !mkdir Results
@@ -32,14 +36,8 @@ i.e.
 We provide five test images in Test_Images folder, and you can add any other 
 test images to it.
 
-To run this program on a local machine, it's simply
-```commandline
-mkdir Results
-python3 canny_edge.py IMAGE_NAME
-```
-
 ## To Do
 
 - [ ] Tuning low/high of Canny Edge.
 - [ ] Write Evaluation function for Edge Detection.
-- [ ] Use CuPy to replace numpy to improve efficiency.
+- [x] Use CuPy to replace numpy to improve efficiency.
