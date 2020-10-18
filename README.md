@@ -18,13 +18,13 @@ Please follow these steps before running the canny_edge.py.
 3. cd repo folder.
 4. make new dictionary **Results**.
 
-Then, you can run canny_edge.py through
 ```commandline
 !pip3 install cupy-cuda101 
 !git clone https://github.com/hsha0/laneDetection.git
 %cd laneDetection/
 !mkdir Results
 ```
+Then, you can run canny_edge.py through
 ```
 !python3 canny_edge.py IMAGE_NAME
 ```
