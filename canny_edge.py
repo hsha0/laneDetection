@@ -136,7 +136,6 @@ def findDerivatives(I_gray):
 
     # compute G convolve dx and dy respectively
     G_dx = signal.convolve2d(G, dx, mode='same')
-    print(G_dx)
     G_dy = signal.convolve2d(G, dy, mode='same')
     # compute Magx and Magy
     Magx = signal.convolve2d(I_gray, G_dx, mode='same')
@@ -172,8 +171,7 @@ def nonMaxSup(Mag, Ori):
     # and replace edge cases with 0
     positive_neighbors = interp2(Mag, positive_neighbor_x, positive_neighbor_y)
     edge_mask = cp.logical_and(cp.where((positive_neighbor_x > nc-1) | (positive_neighbor_x < 0), 0, 1), \
-                               cp.where((positive_neighbor_y > nr-1)|(positive_neighbor_y
-                                                                                                                                                 < 0), 0, 1))
+                               cp.where((positive_neighbor_y > nr-1)|(positive_neighbor_y < 0), 0, 1))
     positive_neighbors *= edge_mask
 
     # get Mag of neighbors in negative gradient orientation
