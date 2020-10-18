@@ -16,7 +16,7 @@ Please follow these steps before running the canny_edge.py.
 1. install cupy.
 2. git clone repository.
 3. cd repo folder.
-4. make new dictionary **Results**.
+4. make new directory **Results**.
 
 ```commandline
 !pip3 install cupy-cuda101 
