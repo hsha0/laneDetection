@@ -40,11 +40,6 @@ def Test_script(I, E):
       test_pass = False
     # end if
 
-    if test_pass:
-      print('Shape Test Passed! \n')
-    else:
-      print('Shape Test Failed! \n')
-
     return test_pass
 
 '''
@@ -257,12 +252,12 @@ def cannyEdge(I, low, high):
     E = edgeLink(M, Mag, Ori, low, high)
 
     # only when test passed that can show all results
-    if Test_script(im_gray, E):
+    # if Test_script(im_gray, E):
         # visualization results
-        visDerivatives(im_gray, Mag, Magx, Magy)
-        visCannyEdge(I, M, E)
+        # visDerivatives(im_gray, Mag, Magx, Magy)
+        # visCannyEdge(I, M, E)
 
-        plt.show()
+        # plt.show()
 
     return E
 
@@ -271,7 +266,7 @@ def cannyEdge(I, low, high):
 # tuning threshold for simple test images
 image_folder = "Test_Images"
 save_folder = "Results" # need to create this folder in the drive
-filename='1.jpg' # TODO: change image name
+filename= sys.argv[1] # TODO: change image name
 I = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
 low, high = 20, 60
 E = cannyEdge(I, low, high)
