@@ -271,7 +271,7 @@ I = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
 low, high = 20, 60
 E = cannyEdge(I, low, high)
 #pil_image = Image.fromarray(E.astype(np.uint8) * 255).convert('L')
-pil_image = Image.fromarray(np.asnumpy(E, dtype=np.uint8) * 255).convert('L')
+pil_image = Image.fromarray(np.asnumpy(E.astype(np.uint8)) * 255).convert('L')
 # check the result in the folder
 pil_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
 
