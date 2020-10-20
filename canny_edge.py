@@ -261,6 +261,46 @@ def cannyEdge(I, low, high):
 
     return E
 
+def crop_image(img, vertices):
+    # crop the image except the lower part that contains the edges
+    mask = np.zeros((img.shape[0], img.shape[1]))
+    cv2.fillPoly(mask, [vertices], 1)
+    masked_img = np.multiply(img, mask)
+    return masked_img
+
+def hough_transform(cropped_img, original_img):
+    # apply hough transform to determine two straight edges
+    edge = cv2.HoughLinesP(cropped_img, rho=5, theta=np.pi/60, threshold=180, lines=np.array([]), minLineLength=40, maxLineGap=40)
+    # edge = cv2.HoughLines(cropped_img, rho=6, theta=np.pi/60, threshold=160, lines=np.array([]))
+    hough_img = np.zeros((cropped_img.shape[0], img.shape[1], 3), dtype=np.uint8)
+    left_edge_x = []
+    left_edge_y = []
+    right_edge_x = []
+    right_edge_y = []
+    for i in edge:
+        for x1, y1, x2, y2 in i:
+            slope = (y2 - y1)/(x2 - x1)
+            if (slope <= 0):
+                left_edge_x.extend([x1, x2])
+                left_edge_y.extend([y1, y2])
+            else:
+                right_edge_x.extend([x1, x2])
+                right_edge_y.extend([y1, y2])
+    # fit the left edges and right edges to get single left and right edge
+    poly_left = np.poly1d(np.polyfit(left_edge_y, left_edge_x, deg=1))
+    poly_right = np.poly1d(np.polyfit(right_edge_y, right_edge_x, deg=1))
+    y_bot = int(cropped_image.shape[0] - 1)
+    y_top = int(cropped_image.shape[0] / 3 - 1)
+    x_left_bot = int(poly_left(y_bot))
+    x_left_top = int(poly_left(y_top))
+    x_right_bot = int(poly_right(y_bot))
+    x_right_top = int(poly_right(y_top))
+    # cv2.line(hough_img, (x1, y1), (x2, y2), [255, 0, 0], 4)
+    # draw the left and right edge on the image
+    cv2.line(hough_img, (x_left_bot, y_bot), (x_left_top, y_top), [255, 0, 0], 4)
+    cv2.line(hough_img, (x_right_bot, y_bot), (x_right_top, y_top), [255, 0, 0], 4)
+    combine_img = cv2.addWeighted(original_img, 1.0, hough_img, 1.0, 0.0)
+    return combine_img
 
 
 # tuning threshold for simple test images
@@ -268,9 +308,15 @@ image_folder = "Test_Images"
 save_folder = "Results" # need to create this folder in the drive
 filename= sys.argv[1] # TODO: change image name
 I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
+I1 = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
 low, high = 40, 100
 E = cannyEdge(I, low, high)
 pil_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
+# crop the image
+vertices = np.array([[0, pil_image.shape[0] - 2], [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 4 - 1], [pil_image.shape[1] - 2, pil_image.shape[0] - 2]], np.int32)
+cropped_image = crop_image(pil_image, vertices)
+# implement hough transform
+hough_image = hough_transform(cropped_image.astype(np.uint8), I1)
 # check the result in the folder
-pil_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
+hough_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
 
