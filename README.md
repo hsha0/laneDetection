@@ -13,8 +13,8 @@ test_label.json.
 You can use Colab (with GPU) to run this program.
 
 Please follow these steps before running the canny_edge.py.
-1. For some unknown reasen, we need to uninstall cupy first to avoid some import errors.
-2. install cupy.
+1. Uninstall cupy-cuda101-7.4.0.
+2. install cupy-cuda101-8.0.0.
 3. git clone repository.
 4. cd repo folder.
 5. make new directory **Results**.
