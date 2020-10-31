@@ -352,8 +352,8 @@ def hough_transform(cropped_img, original_img):
     # fit the left edges and right edges to get single left and right edge
     poly_left = np.poly1d(np.polyfit(left_edge_y, left_edge_x, deg=1))
     poly_right = np.poly1d(np.polyfit(right_edge_y, right_edge_x, deg=1))
-    y_bot = int(cropped_image.shape[0] - 1)
-    y_top = int(cropped_image.shape[0] / 3 - 1)
+    y_bot = int(cropped_img.shape[0] - 1)
+    y_top = int(cropped_img.shape[0] / 3 - 1)
     x_left_bot = int(poly_left(y_bot))
     x_left_top = int(poly_left(y_top))
     x_right_bot = int(poly_right(y_bot))
