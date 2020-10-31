@@ -399,7 +399,7 @@ def main():
         # crop the image
         vertices = np.array([[0, pil_image.shape[0] - 2],
                              [0, pil_image.shape[1] * 4 / 5 - 1],
-                             [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 4 - 1],
+                             [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 5 - 1],
                              [pil_image.shape[1] - 2, pil_image.shape[1] * 4 / 5 - 1],
                              [pil_image.shape[1] - 2, pil_image.shape[0] - 2]], np.int32)
         print(vertices)
