@@ -392,15 +392,13 @@ def main():
         E = cannyEdge(I, low, high)
 
         # edge_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
-        #edge_image.save(os.path.join(save_folder, "{}_edge.png".format(filename.split(".")[0])))
+        # edge_image.save(os.path.join(save_folder, "{}_edge.png".format(filename.split(".")[0])))
 
         pil_image = cp.asnumpy(E.astype(cp.uint8)) * 255
 
         # crop the image
         vertices = np.array([[0, pil_image.shape[0] - 2],
-                             [0, pil_image.shape[1] * 4 / 5 - 1],
                              [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 5 - 1],
-                             [pil_image.shape[1] - 2, pil_image.shape[1] * 4 / 5 - 1],
                              [pil_image.shape[1] - 2, pil_image.shape[0] - 2]], np.int32)
         print(vertices)
         cropped_image = crop_image(pil_image, vertices)
