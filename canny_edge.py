@@ -328,6 +328,7 @@ def crop_image(img, vertices):
     # crop the image except the lower part that contains the edges
     mask = np.zeros((img.shape[0], img.shape[1]))
     cv2.fillPoly(mask, [vertices], 1)
+    print(mask)
     masked_img = np.multiply(img, mask)
     return masked_img
 
