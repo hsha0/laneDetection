@@ -342,7 +342,9 @@ def hough_transform(cropped_img, original_img):
     right_edge_y = []
     for i in edge:
         for x1, y1, x2, y2 in i:
-            print(x2, x1)
+
+            if x2 == x1:
+                continue
             slope = (y2 - y1)/(x2 - x1)
             if (slope <= 0):
                 left_edge_x.extend([x1, x2])
