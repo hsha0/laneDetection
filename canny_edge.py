@@ -382,7 +382,7 @@ cropped_image = crop_image(pil_image, vertices)
 
 # implement hough transform
 hough_image = hough_transform(cropped_image.astype(np.uint8), I1)
-
+hough_image = Image.fromarray(hough_image.astype(np.uint8)).convert('L')
 # save the image
 hough_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
 
