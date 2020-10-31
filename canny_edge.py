@@ -9,6 +9,8 @@ Original file is located at
 
 import cupy as cp
 import numpy as np
+from os import listdir
+from os.path import isfile, join
 
 def interp2(v, xq, yq):
 	dim_input = 1
@@ -363,26 +365,35 @@ def hough_transform(cropped_img, original_img):
     combine_img = cv2.addWeighted(original_img, 1.0, hough_img, 1.0, 0.0)
     return combine_img
 
-# tuning threshold for simple test images
-image_folder = "/content/laneDetection/Test_Images"
-save_folder = "/content/laneDetection/Results" # need to create this folder in the drive
-filename= sys.argv[1] # TODO: change image name
-I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
-I1 = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
-low, high = 40, 100
-E = cannyEdge(I, low, high)
-# pil_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
-pil_image = cp.asnumpy(E.astype(cp.uint8)) * 255
-# check the result in the folder
-# pil_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
 
-# crop the image
-vertices = np.array([[0, pil_image.shape[0] - 2], [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 4 - 1], [pil_image.shape[1] - 2, pil_image.shape[0] - 2]], np.int32)
-cropped_image = crop_image(pil_image, vertices)
+def main():
 
-# implement hough transform
-hough_image = hough_transform(cropped_image.astype(np.uint8), I1)
-hough_image = Image.fromarray(hough_image.astype(np.uint8))
-# save the image
-hough_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
+    file_folder = sys.argv[1]
 
+    test_files = [f for f in listdir(file_folder) if isfile(join(file_folder, f))]
+
+    for file in test_files:
+        # tuning threshold for simple test images
+        image_folder = "/content/laneDetection/Test_Images/" + file_folder
+        save_folder = "/content/laneDetection/Results/" + file_folder # need to create this folder in the drive
+        filename = file # TODO: change image name
+        I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
+        I1 = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
+        low, high = 40, 100
+        E = cannyEdge(I, low, high)
+        # pil_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
+        pil_image = cp.asnumpy(E.astype(cp.uint8)) * 255
+        # check the result in the folder
+        # pil_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
+
+        # crop the image
+        vertices = np.array([[0, pil_image.shape[0] - 2], [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 4 - 1], [pil_image.shape[1] - 2, pil_image.shape[0] - 2]], np.int32)
+        cropped_image = crop_image(pil_image, vertices)
+
+        # implement hough transform
+        hough_image = hough_transform(cropped_image.astype(np.uint8), I1)
+        hough_image = Image.fromarray(hough_image.astype(np.uint8))
+        # save the image
+        hough_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
+
+main()
