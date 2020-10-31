@@ -392,6 +392,9 @@ def main():
         low, high = 40, 100
         E = cannyEdge(I, low, high)
         # pil_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
+        edge_image = Image.fromarray(cp.asnumpy(E.astype(cp.uint8)) * 255).convert('L')
+        edge_image.save(os.path.join(save_folder, "{}_edge.png".format(filename.split(".")[0])))
+
         pil_image = cp.asnumpy(E.astype(cp.uint8)) * 255
         # check the result in the folder
         # pil_image.save(os.path.join(save_folder, "{}_Result.png".format(filename.split(".")[0])))
