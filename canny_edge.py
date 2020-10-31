@@ -272,7 +272,7 @@ def hough_transform(cropped_img, original_img):
     # apply hough transform to determine two straight edges
     edge = cv2.HoughLinesP(cropped_img, rho=5, theta=np.pi/60, threshold=180, lines=np.array([]), minLineLength=40, maxLineGap=40)
     # edge = cv2.HoughLines(cropped_img, rho=6, theta=np.pi/60, threshold=160, lines=np.array([]))
-    hough_img = np.zeros((cropped_img.shape[0], img.shape[1], 3), dtype=np.uint8)
+    hough_img = np.zeros((cropped_img.shape[0], cropped_img.shape[1], 3), dtype=np.uint8)
     left_edge_x = []
     left_edge_y = []
     right_edge_x = []
