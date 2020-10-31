@@ -373,6 +373,9 @@ def main():
     image_folder = "Test_Images/" + file_folder
     save_folder = "Results/" + file_folder  # need to create this folder in the drive
 
+    if not os.path.exists(save_folder):
+        os.makedirs(save_folder)
+
     test_files = [f for f in listdir(image_folder) if isfile(join(image_folder, f))]
 
     for file in test_files:
