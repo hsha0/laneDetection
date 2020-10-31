@@ -370,8 +370,8 @@ def main():
 
     file_folder = sys.argv[1]
 
-    image_folder = "/content/laneDetection/Test_Images/" + file_folder
-    save_folder = "/content/laneDetection/Results/" + file_folder  # need to create this folder in the drive
+    image_folder = "Test_Images/" + file_folder
+    save_folder = "Results/" + file_folder  # need to create this folder in the drive
 
     test_files = [f for f in listdir(image_folder) if isfile(join(image_folder, f))]
 
