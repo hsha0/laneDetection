@@ -370,12 +370,14 @@ def main():
 
     file_folder = sys.argv[1]
 
-    test_files = [f for f in listdir(file_folder) if isfile(join(file_folder, f))]
+    image_folder = "/content/laneDetection/Test_Images/" + file_folder
+    save_folder = "/content/laneDetection/Results/" + file_folder  # need to create this folder in the drive
+
+    test_files = [f for f in listdir(image_folder) if isfile(join(image_folder, f))]
 
     for file in test_files:
         # tuning threshold for simple test images
-        image_folder = "/content/laneDetection/Test_Images/" + file_folder
-        save_folder = "/content/laneDetection/Results/" + file_folder # need to create this folder in the drive
+
         filename = file # TODO: change image name
         I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
         I1 = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
