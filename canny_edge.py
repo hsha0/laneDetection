@@ -341,6 +341,7 @@ def hough_transform(cropped_img, original_img):
     right_edge_x = []
     right_edge_y = []
     for i in edge:
+        print(i)
         for x1, y1, x2, y2 in i:
             if x2 == x1:
                 continue
