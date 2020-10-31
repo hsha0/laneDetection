@@ -380,7 +380,7 @@ def main():
 
     for file in test_files:
         # tuning threshold for simple test images
-
+        print("Processing " + file)
         filename = file # TODO: change image name
         I = cp.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
         I1 = np.array(Image.open(os.path.join(image_folder, filename)).convert('RGB'))
