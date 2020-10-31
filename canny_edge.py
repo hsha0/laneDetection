@@ -396,7 +396,11 @@ def main():
         pil_image = cp.asnumpy(E.astype(cp.uint8)) * 255
 
         # crop the image
-        vertices = np.array([[0, pil_image.shape[0] - 2], [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 5 - 1], [pil_image.shape[1] - 2, pil_image.shape[0] - 2]], np.int32)
+        vertices = np.array([[0, pil_image.shape[0] - 2],
+                             [0, pil_image.shape[1] * 3 / 4 - 1],
+                             [pil_image.shape[1] / 2 - 1, pil_image.shape[0] / 4 - 1],
+                             [pil_image.shape[1] - 2, pil_image.shape[1] * 3 / 4 - 1],
+                             [pil_image.shape[1] - 2, pil_image.shape[0] - 2]], np.int32)
         print(vertices)
         cropped_image = crop_image(pil_image, vertices)
 
