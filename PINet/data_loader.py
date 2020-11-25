@@ -236,7 +236,6 @@ class Generator(object):
         test_image = cv2.imdecode(test_image, cv2.IMREAD_COLOR)
         test_image = cv2.resize(test_image, (self.p.x_size,self.p.y_size))
 
-        print(test_image.shape)
         return np.array(inputs), target_lanes, target_h, np.rollaxis(test_image, axis=2, start=0), data_list
 
     def make_dense_x(self, l, h):

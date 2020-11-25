@@ -33,7 +33,7 @@ def Training():
     ####################################################################
     print('Initializing hyper parameter')
 
-    vis = visdom.Visdom()
+    vis = visdom.Visdom(port='6006')
     loss_window = vis.line(X=torch.zeros((1,)).cpu(),
                            Y=torch.zeros((1)).cpu(),
                            opts=dict(xlabel='epoch',
