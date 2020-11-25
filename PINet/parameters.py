@@ -12,7 +12,7 @@ class Parameters():
     save_path = "savefile/"
     model_path = "savefile/"
     model_epoch = 2
-    model_loss = "tensor(6.2212)"
+    model_loss = "tensor(4.8311)"
     batch_size = 16
     do_eval = False
     x_size = 512
