@@ -231,10 +231,9 @@ class Generator(object):
         #test set image
         test_index = random.randrange(0, self.size_test - 1)
         test_image = None
-        print(self.test_data[test_index]['raw_file'])
-        exit()
         with tf.io.gfile.GFile(self.p.test_root_url+self.test_data[test_index]['raw_file'], 'rb') as f:
             test_image = np.asarray(bytearray(f.read()), dtype="uint8")
+        test_image = cv2.imdecode(test_image, cv2.IMREAD_COLOR)
         test_image = cv2.resize(test_image, (self.p.x_size,self.p.y_size))
 
         print(test_image.shape)
