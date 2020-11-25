@@ -55,7 +55,7 @@ def Training():
         lane_agent = agent.Agent()
         p.model_epoch = 0
     else:
-        lane_agent = agent.Agent()
+        lane_agent = agent.Agent(p.model_epoch)
         lane_agent.load_weights(p.model_epoch, p.model_loss)
 
     ##############################

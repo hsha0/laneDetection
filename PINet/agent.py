@@ -28,7 +28,7 @@ class Agent(nn.Module):
     ## Initialize
     #####################################################
     def __init__(self):
-        super(Agent, self).__init__()
+        super(Agent, self).__init__(current_epoch = 0)
 
         self.p = Parameters()
 
@@ -36,7 +36,7 @@ class Agent(nn.Module):
 
         self.setup_optimizer()
 
-        self.current_epoch = 0
+        self.current_epoch = current_epoch
 
         self.hard_sampling = hard_sampling.hard_sampling()
 
