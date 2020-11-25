@@ -206,7 +206,7 @@ class Generator(object):
             #data_list.append(data)
 
             # train set image
-            with tf.io.gfile.GFile(self.p.train_root_url + data['raw_file']) as f:
+            with tf.io.gfile.GFile(self.p.train_root_url + data['raw_file'], 'rb') as f:
                 print(np.asarray(bytearray(f.read()), dtype="uint8"))
                 exit()
             temp_image = cv2.imread(self.p.train_root_url+data['raw_file'])
