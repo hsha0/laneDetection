@@ -207,7 +207,7 @@ class Generator(object):
 
             # train set image
             with tf.io.gfile.GFile(self.p.train_root_url + data['raw_file']) as f:
-                print(np.array(f))
+                print(np.array(f.read()))
                 exit()
             temp_image = cv2.imread(self.p.train_root_url+data['raw_file'])
             ratio_w = self.p.x_size*1.0/temp_image.shape[1]
