@@ -206,8 +206,6 @@ class Generator(object):
             #data_list.append(data)
 
             # train set image
-            print(data['raw_file'])
-            exit()
             with tf.io.gfile.GFile(self.p.train_root_url + data['raw_file']) as f:
                 print(f)
                 exit()
