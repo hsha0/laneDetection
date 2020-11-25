@@ -70,7 +70,7 @@ def Training():
     ## Loop for training
     ##############################
     print('Training loop')
-    step = int(p.model_epoch * len(loader.size_train) / p.batch_size)
+    step = int(p.model_epoch * loader.size_train / p.batch_size)
     sampling_list = None
     for epoch in range(p.model_epoch + 1, p.n_epoch):
         lane_agent.training_mode()
