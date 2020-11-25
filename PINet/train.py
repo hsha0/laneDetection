@@ -55,7 +55,7 @@ def Training():
         lane_agent = agent.Agent()
     else:
         lane_agent = agent.Agent()
-        lane_agent.load_weights(1912, "tensor(0.9420)")
+        lane_agent.load_weights(2, "tensor(6.2212)")
 
     ##############################
     ## Check GPU
@@ -89,7 +89,7 @@ def Training():
                     win=loss_window,
                     update='append')
 
-            if step%200 == 0:
+            if step%100 == 0:
                 lane_agent.save_model(int(step/100), loss_p)
                 testing(lane_agent, test_image, step, loss_p)
 

@@ -10,7 +10,7 @@ class Parameters():
     l_rate = 0.00001
     weight_decay=1e-5
     save_path = "savefile/"
-    model_path = ""
+    model_path = "savefile/"
     batch_size = 16
     x_size = 512
     y_size = 256

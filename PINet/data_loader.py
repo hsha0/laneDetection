@@ -135,7 +135,10 @@ class Generator(object):
         gt = []
         for i in range(start, end):
             data = self.test_data[i]
-            temp_image = cv2.imread(self.p.test_root_url+data['raw_file'])
+            temp_image = None
+            with tf.io.gfile.GFile(self.p.test_root_url + data['raw_file'], 'rb') as f:
+                temp_image = np.asarray(bytearray(f.read()), dtype="uint8")
+            temp_image = cv2.imdecode(temp_image, cv2.IMREAD_COLOR)
             ratio_w = self.p.x_size*1.0/temp_image.shape[1]
             ratio_h = self.p.y_size*1.0/temp_image.shape[0]
             temp_image = cv2.resize(temp_image, (self.p.x_size,self.p.y_size))
