@@ -36,7 +36,7 @@ def Training():
     vis = visdom.Visdom(port='2020')
     loss_window = vis.line(X=torch.zeros((1,)).cpu(),
                            Y=torch.zeros((1)).cpu(),
-                           opts=dict(xlabel='epoch',
+                           opts=dict(xlabel='50 steps',
                                      ylabel='Loss',
                                      title='Training Loss',
                                      legend=['Loss']))
@@ -88,10 +88,12 @@ def Training():
                     Y=torch.Tensor([loss_p]).unsqueeze(0).cpu(),
                     win=loss_window,
                     update='append')
-                
+            '''    
             if step%100 == 0:
                 lane_agent.save_model(int(step/100), loss_p)
                 testing(lane_agent, test_image, step, loss_p)
+            '''
+
             step += 1
 
         sampling_list = copy.deepcopy(lane_agent.get_data_list())
@@ -111,11 +113,11 @@ def Training():
 
             for idx in index:
                 print("compute score")
-                with open("/home/kym/Dropbox/eval_result2_"+str(idx)+"_.txt", 'a') as make_file:
+                with open("eval_results/eval_result2_"+str(idx)+"_.txt", 'a') as make_file:
                     make_file.write( "epoch : " + str(epoch) + " loss : " + str(loss_p.cpu().data) )
                     make_file.write(evaluation.LaneEval.bench_one_submit("test_result_"+str(epoch)+"_"+str(idx)+".json", "test_label.json"))
                     make_file.write("\n")
-                with open("eval_result_"+str(idx)+"_.txt", 'a') as make_file:
+                with open("eval_results/eval_result_"+str(idx)+"_.txt", 'a') as make_file:
                     make_file.write( "epoch : " + str(epoch) + " loss : " + str(loss_p.cpu().data) )
                     make_file.write(evaluation.LaneEval.bench_one_submit("test_result_"+str(epoch)+"_"+str(idx)+".json", "test_label.json"))
                     make_file.write("\n")

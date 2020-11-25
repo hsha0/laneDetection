@@ -6,7 +6,7 @@
 import numpy as np
 
 class Parameters():
-    n_epoch = 5
+    n_epoch = 3
     l_rate = 0.00001
     weight_decay=1e-5
     save_path = "savefile/"
