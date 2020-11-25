@@ -11,8 +11,8 @@ class Parameters():
     weight_decay=1e-5
     save_path = "savefile/"
     model_path = "savefile/"
-    model_epoch = 2
-    model_loss = "tensor(4.1355)"
+    model_epoch = 5
+    model_loss = "tensor(3.1852)"
     batch_size = 16
     do_eval = False
     x_size = 512
