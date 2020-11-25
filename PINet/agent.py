@@ -27,8 +27,8 @@ class Agent(nn.Module):
     #####################################################
     ## Initialize
     #####################################################
-    def __init__(self):
-        super(Agent, self).__init__(current_epoch = 0)
+    def __init__(self, current_epoch=0):
+        super(Agent, self).__init__()
 
         self.p = Parameters()
 
