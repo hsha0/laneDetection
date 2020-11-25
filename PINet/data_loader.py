@@ -206,10 +206,11 @@ class Generator(object):
             #data_list.append(data)
 
             # train set image
+            image = None
             with tf.io.gfile.GFile(self.p.train_root_url + data['raw_file'], 'rb') as f:
-                print(np.asarray(bytearray(f.read()), dtype="uint8"))
-                exit()
-            temp_image = cv2.imread(self.p.train_root_url+data['raw_file'])
+                image = np.asarray(bytearray(f.read()), dtype="uint8")
+
+            temp_image = cv2.imdecode(image, cv2.IMREAD_COLOR)
             ratio_w = self.p.x_size*1.0/temp_image.shape[1]
             ratio_h = self.p.y_size*1.0/temp_image.shape[0]
             temp_image = cv2.resize(temp_image, (self.p.x_size,self.p.y_size))
