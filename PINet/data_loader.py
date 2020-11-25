@@ -206,11 +206,11 @@ class Generator(object):
             #data_list.append(data)
 
             # train set image
-            image = None
+            temp_image = None
             with tf.io.gfile.GFile(self.p.train_root_url + data['raw_file'], 'rb') as f:
-                image = np.asarray(bytearray(f.read()), dtype="uint8")
+                temp_image = np.asarray(bytearray(f.read()), dtype="uint8")
 
-            temp_image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+            temp_image = cv2.imdecode(temp_image, cv2.IMREAD_COLOR)
             ratio_w = self.p.x_size*1.0/temp_image.shape[1]
             ratio_h = self.p.y_size*1.0/temp_image.shape[0]
             temp_image = cv2.resize(temp_image, (self.p.x_size,self.p.y_size))
@@ -229,8 +229,10 @@ class Generator(object):
             target_h.append(np.array(temp_h))
 
         #test set image
-        test_index = random.randrange(0, self.size_test-1)
-        test_image = cv2.imread(self.p.test_root_url+self.test_data[test_index]['raw_file'])
+        test_index = random.randrange(0, self.size_test - 1)
+        test_image = None
+        with tf.io.gfile.GFile(self.p.test_root_url+self.test_data[test_index]['raw_file'], 'rb') as f:
+            test_image = np.asarray(bytearray(f.read()), dtype="uint8")
         test_image = cv2.resize(test_image, (self.p.x_size,self.p.y_size))
         
         return np.array(inputs), target_lanes, target_h, np.rollaxis(test_image, axis=2, start=0), data_list
