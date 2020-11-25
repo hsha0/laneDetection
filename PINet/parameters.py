@@ -11,7 +11,7 @@ class Parameters():
     weight_decay=1e-5
     save_path = "savefile/"
     model_path = ""
-    batch_size = 24
+    batch_size = 12
     x_size = 512
     y_size = 256
     resize_ratio = 8
