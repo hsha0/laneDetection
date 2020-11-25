@@ -55,7 +55,7 @@ def Training():
         lane_agent = agent.Agent()
         p.model_epoch = 0
     else:
-        lane_agent = agent.Agent(p.model_epoch)
+        lane_agent = agent.Agent(p.model_epoch + 1)
         lane_agent.load_weights(p.model_epoch, p.model_loss)
 
     ##############################
@@ -70,9 +70,9 @@ def Training():
     ## Loop for training
     ##############################
     print('Training loop')
-    step = 0
+    step = int(p.model_epoch * len(loader.size_train) / p.batch_size)
     sampling_list = None
-    for epoch in range(p.model_epoch, p.n_epoch):
+    for epoch in range(p.model_epoch + 1, p.n_epoch):
         lane_agent.training_mode()
         for inputs, target_lanes, target_h, test_image, data_list in loader.Generate(sampling_list):
             #training
@@ -90,12 +90,10 @@ def Training():
                     win=loss_window,
                     update='append')
 
-            if step%100 == 0:
-                lane_agent.save_model(int(step/100), loss_p)
-                testing(lane_agent, test_image, step, loss_p)
-
-
             step += 1
+
+        lane_agent.save_model(epoch, loss_p)
+        testing(lane_agent, test_image, step, loss_p)
 
         sampling_list = copy.deepcopy(lane_agent.get_data_list())
         lane_agent.sample_reset()
