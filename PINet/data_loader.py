@@ -12,6 +12,7 @@ import json
 import random
 from copy import deepcopy
 from parameters import Parameters
+import tensorflow as tf
 
 
 #########################################################################
@@ -47,7 +48,7 @@ class Generator(object):
         self.train_data_three = []
         self.train_data_two = []
 
-        with open("/home/kym/research/autonomous_car_vision/lane_detection/code/Tusimple/fitting/dataset/five.json") as f:
+        with open("dataset/five.json") as f:
             while True:
                 line = f.readline()
                 if not line:
@@ -55,7 +56,7 @@ class Generator(object):
                 jsonString = json.loads(line)
                 self.train_data_five.append(jsonString)
 
-        with open("/home/kym/research/autonomous_car_vision/lane_detection/code/Tusimple/fitting/dataset/four.json") as f:
+        with open("dataset/four.json") as f:
             while True:
                 line = f.readline()
                 if not line:
@@ -63,7 +64,7 @@ class Generator(object):
                 jsonString = json.loads(line)
                 self.train_data_four.append(jsonString)
 
-        with open("/home/kym/research/autonomous_car_vision/lane_detection/code/Tusimple/fitting/dataset/three.json") as f:
+        with open("dataset/three.json") as f:
             while True:
                 line = f.readline()
                 if not line:
@@ -71,7 +72,7 @@ class Generator(object):
                 jsonString = json.loads(line)
                 self.train_data_three.append(jsonString)
 
-        with open("/home/kym/research/autonomous_car_vision/lane_detection/code/Tusimple/fitting/dataset/two.json") as f:
+        with open("dataset/two.json") as f:
             while True:
                 line = f.readline()
                 if not line:
@@ -84,7 +85,7 @@ class Generator(object):
 
         # load test set
         self.test_data = []
-        with open(self.p.test_root_url+'test_tasks_0627.json') as f:
+        with tf.io.gfile.GFile(self.p.test_root_url+'test_tasks_0627.json') as f:
             #with open(self.p.test_root_url+'test_label.json') as f:
             while True:
                 line = f.readline()
@@ -205,6 +206,11 @@ class Generator(object):
             #data_list.append(data)
 
             # train set image
+            print(data['raw_file'])
+            exit()
+            with tf.io.gfile.GFile(self.p.train_root_url + data['raw_file']) as f:
+                print(f)
+                exit()
             temp_image = cv2.imread(self.p.train_root_url+data['raw_file'])
             ratio_w = self.p.x_size*1.0/temp_image.shape[1]
             ratio_h = self.p.y_size*1.0/temp_image.shape[0]
