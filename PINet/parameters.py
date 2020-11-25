@@ -9,7 +9,7 @@ class Parameters():
     n_epoch = 1
     l_rate = 0.00001
     weight_decay=1e-5
-    save_path = "gs://581tusimple/savefiles/"
+    save_path = "savefile/"
     model_path = ""
     batch_size = 6
     x_size = 512
