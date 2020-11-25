@@ -6,11 +6,11 @@
 import numpy as np
 
 class Parameters():
-    n_epoch = 1000
+    n_epoch = 1
     l_rate = 0.00001
     weight_decay=1e-5
-    save_path = "savefile/"
-    model_path = "savefile/"
+    save_path = "gs://581tusimple/savefiles/"
+    model_path = ""
     batch_size = 6
     x_size = 512
     y_size = 256
@@ -50,8 +50,8 @@ class Parameters():
                     ,(18,52),(19,53),(20,54),(21,55),(22,56),(23,57),(24,58),(25,59),(26,60),(27,61),(28,62),(29,63),(30,64),(31,65)
                     ,(32,66),(33,67),(68,68),(69,69),(70,72),(71,73)]
     
-    train_root_url="/home/kym/research/autonomous_car_vision/dataset/TuSimple_dataset/train_set/"
-    test_root_url="/home/kym/research/autonomous_car_vision/dataset/TuSimple_dataset/test_set/"
+    train_root_url="gs://581tusimple/dataset/TuSimple/train_set/"
+    test_root_url="gs://581tusimple/dataset/TuSimple/test_set/"
 
     # test parameter
     color = [(0,0,0), (255,0,0), (0,255,0),(0,0,255),(255,255,0),(255,0,255),(0,255,255),(255,255,255),(100,255,0),(100,0,255),(255,100,0),(0,100,255),(255,0,100),(0,255,100)]
