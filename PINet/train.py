@@ -88,11 +88,11 @@ def Training():
                     Y=torch.Tensor([loss_p]).unsqueeze(0).cpu(),
                     win=loss_window,
                     update='append')
-            '''    
-            if step%100 == 0:
+
+            if step%200 == 0:
                 lane_agent.save_model(int(step/100), loss_p)
                 testing(lane_agent, test_image, step, loss_p)
-            '''
+
 
             step += 1
 
