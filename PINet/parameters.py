@@ -6,13 +6,13 @@
 import numpy as np
 
 class Parameters():
-    n_epoch = 28
+    n_epoch = 38
     l_rate = 0.00001
     weight_decay=1e-5
     save_path = "savefile/"
     model_path = "savefile/"
-    model_epoch = 19
-    model_loss = "tensor(1.8760)"
+    model_epoch = 27
+    model_loss = "tensor(1.6450)"
     batch_size = 16
     do_eval = False
     x_size = 512
