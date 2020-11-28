@@ -295,7 +295,7 @@ class Agent(nn.Module):
         del exist_condidence_loss, nonexist_confidence_loss, offset_loss, sisc_loss, disc_loss
 
         #trim = 180 #70+30+70 + 110
-        """
+
         trim = 0
         if epoch>0 and self.current_epoch != epoch:
             self.current_epoch = epoch
@@ -332,7 +332,7 @@ class Agent(nn.Module):
             elif epoch == 350-trim:
                 self.p.l_rate = 0.00000001
                 self.setup_optimizer()   
-        """
+
 
         return lane_detection_loss
 
