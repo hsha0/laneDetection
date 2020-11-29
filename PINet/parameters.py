@@ -10,7 +10,7 @@ class Parameters():
     l_rate = 0.001
     weight_decay=1e-5
     save_path = "savefile_lr1e-3/"
-    model_path = "savafile_lr1e-3/"
+    model_path = "savefile_lr1e-3/"
     model_epoch = 8
     model_loss = "tensor(1.2767)"
     batch_size = 16
