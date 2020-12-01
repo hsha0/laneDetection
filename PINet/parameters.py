@@ -12,7 +12,7 @@ class Parameters():
     save_path = "savefile_lr1e-3/"
     model_path = "savefile_lr1e-3/"
     model_epoch = 26
-    model_loss = "tensor(0。8788)"
+    model_loss = "tensor(0.8788)"
     batch_size = 16
     do_eval = False
     x_size = 512
