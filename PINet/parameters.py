@@ -7,7 +7,7 @@ import numpy as np
 
 class Parameters():
     n_epoch = 41
-    l_rate = 0.001
+    l_rate = 0.0005
     weight_decay=1e-5
     save_path = "savefile_lr1e-3/"
     model_path = "savefile_lr1e-3/"
