@@ -106,7 +106,7 @@ def Testing():
             test_image = np.rollaxis(test_image, axis=2, start=0)
             _, _, ti = test(lane_agent, np.array([test_image]))
             # cv2.imshow("test", ti[0])
-            cv2.imwrite(save_folder+str(i)+'_Result.png', ti[0])
+            cv2.imwrite(save_folder+str(i)+'_Result.png', cv2.resize(ti[0], (1280, 800)))
             # cv2.waitKey(0)
             # img = cv2.imread(save_folder+str(i)+'_Result.png')
             # video.write(img)
