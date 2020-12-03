@@ -16,6 +16,8 @@ from parameters import Parameters
 import util
 from tqdm import tqdm
 import csaps
+import os
+import tensorflow as tf
 
 p = Parameters()
 
@@ -41,7 +43,7 @@ def Testing():
         lane_agent = agent.Agent()
     else:
         lane_agent = agent.Agent()
-        lane_agent.load_weights(p.model_epoch, p.model_loss)
+        lane_agent.load_weights(40, "tensor(0.9881)")
 	
     ##############################
     ## Check GPU
@@ -84,16 +86,38 @@ def Testing():
         cv2.destroyAllWindows()
 
     elif p.mode == 2: # check model with a picture
-        test_image = cv2.imread(p.test_root_url+"clips/0530/1492720840345996040_0/20.jpg")
-        test_image = cv2.resize(test_image, (512,256))/255.0
-        test_image = np.rollaxis(test_image, axis=2, start=0)
-        _, _, ti = test(lane_agent, np.array([test_image]))
-        cv2.imshow("test", ti[0])
-        cv2.waitKey(0)   
+        file_folder = "0530/" + "1492626047222176976_0/"
+        save_folder = "PI_Net_Results/" + file_folder
+        if not os.path.exists(save_folder):
+            os.makedirs(save_folder)
+        test_image = None
+        with tf.io.gfile.GFile(p.test_root_url+"clips/"+file_folder+str(1)+".jpg", 'rb') as f:
+                test_image = np.asarray(bytearray(f.read()), dtype="uint8")
+        test_image = cv2.imdecode(test_image, cv2.IMREAD_COLOR)
+        height, width, channels = test_image.shape
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        video = cv2.VideoWriter(save_folder+file_folder.split('/')[-2]+'.mp4',fourcc,10,(width,height))
+        for i in range(1, 21):
+            with tf.io.gfile.GFile(p.test_root_url+"clips/"+file_folder+str(i)+".jpg", 'rb') as f:
+                test_image = np.asarray(bytearray(f.read()), dtype="uint8")
+            test_image = cv2.imdecode(test_image, cv2.IMREAD_COLOR)
+            # test_image = cv2.imread(p.test_root_url+"clips/0530/1492626047222176976_0/1.jpg")
+            # cv2.imshow("test_11", test_image)
+            test_image = cv2.resize(test_image, (512,256))/255.0
+            test_image = np.rollaxis(test_image, axis=2, start=0)
+            _, _, ti = test(lane_agent, np.array([test_image]))
+            # cv2.imshow("test", ti[0])
+            cv2.imwrite(save_folder+str(i)+'_Result.png', ti[0])
+            # cv2.waitKey(0)
+            img = cv2.imread(save_folder+str(i)+'_Result.png')
+            video.write(img)
+        cv2.destroyAllWindows()
+        video.release()
 
     elif p.mode == 3: #evaluation
         print("evaluate")
         evaluation(loader, lane_agent)
+        
 
 ############################################################################
 ## evaluate on the test dataset
