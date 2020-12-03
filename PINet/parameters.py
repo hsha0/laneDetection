@@ -13,7 +13,7 @@ class Parameters():
     model_path = "savefile_lr1e-3/"
     model_epoch = 39
     model_loss = "tensor(1.3982)"
-    test_folder = "1492626127172745520_0"
+    test_folder = "1492626153155598528_0"
     batch_size = 16
     do_eval = False
     x_size = 512
