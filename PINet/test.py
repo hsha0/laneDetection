@@ -86,7 +86,7 @@ def Testing():
         cv2.destroyAllWindows()
 
     elif p.mode == 2: # check model with a picture
-        file_folder = "0530/" + "1492626047222176976_0/"
+        file_folder = "0530/" + p.test_folder + "/"
         save_folder = "PI_Net_Results/" + file_folder
         if not os.path.exists(save_folder):
             os.makedirs(save_folder)
