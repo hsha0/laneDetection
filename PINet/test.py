@@ -95,8 +95,7 @@ def Testing():
                 test_image = np.asarray(bytearray(f.read()), dtype="uint8")
         test_image = cv2.imdecode(test_image, cv2.IMREAD_COLOR)
         height, width, channels = test_image.shape
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        video = cv2.VideoWriter(save_folder+file_folder.split('/')[-2]+'.mp4',fourcc,10,(width,height))
+
         for i in range(1, 21):
             with tf.io.gfile.GFile(p.test_root_url+"clips/"+file_folder+str(i)+".jpg", 'rb') as f:
                 test_image = np.asarray(bytearray(f.read()), dtype="uint8")
@@ -109,8 +108,18 @@ def Testing():
             # cv2.imshow("test", ti[0])
             cv2.imwrite(save_folder+str(i)+'_Result.png', ti[0])
             # cv2.waitKey(0)
-            img = cv2.imread(save_folder+str(i)+'_Result.png')
+            # img = cv2.imread(save_folder+str(i)+'_Result.png')
+            # video.write(img)
+
+        img = cv2.imread(save_folder + '1_Result.png')
+        height, width, channels = img.shape
+
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        video = cv2.VideoWriter(save_folder + file_folder.split('/')[-2] + '.mp4', fourcc, 10, (width, height))
+        for i in range(1, 21):
+            img = cv2.imread(save_folder + str(i) + '_Result.png')
             video.write(img)
+
         cv2.destroyAllWindows()
         video.release()
 
