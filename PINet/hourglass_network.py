@@ -33,5 +33,6 @@ class lane_detection_network(nn.Module):
         result3, out, feature3 = self.layer3(out)
         result4, out, feature4 = self.layer4(out)
 
-        return [result1, result2, result3, result4], [feature1, feature2, feature3, feature4]
+        # return [result1, result2, result3, result4], [feature1, feature2, feature3, feature4]
+        return [result1, result2, result3], [feature1, feature2, feature3]
         #return [result1], [feature1]
